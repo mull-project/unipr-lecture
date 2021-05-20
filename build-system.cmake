@@ -1,4 +1,4 @@
-function(add_test_app name)
+function(add_test_app name mutator)
   set (sources ${ARGN})
   add_executable(${name} ${sources})
   target_compile_options(${name} PRIVATE -fembed-bitcode -Wno-literal-conversion)
@@ -24,11 +24,13 @@ function(add_test_app name)
     #      -mutators=cxx_comparison
     # + -> -
     #  -mutators=cxx_arithmetic
-    --mutators=cxx_post_inc_to_post_dec
+    --mutators=${mutator}
 #    --ide-reporter-show-killed
     --compilation-flags="${IMPLICIT_HEADERS} -I${CMAKE_CURRENT_LIST_DIR}"
     --compdb-path=${CMAKE_BINARY_DIR}/compile_commands.json
     --strict
+    --linker=${CMAKE_CXX_COMPILER}
+    --linker-flags=-fsanitize=address
     $<TARGET_FILE:${name}>
     VERBATIM
   )
