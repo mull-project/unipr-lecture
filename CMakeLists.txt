@@ -8,3 +8,5 @@ include(build-system.cmake)
 
 add_subdirectory(example-1)
 add_subdirectory(example-2)
+add_subdirectory(example-3)
+
